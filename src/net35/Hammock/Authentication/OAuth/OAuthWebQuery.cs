@@ -50,7 +50,17 @@ namespace Hammock.Authentication.OAuth
 
         protected override byte[] BuildPostOrPutContent(WebRequest request, string post)
         {
-            var content = PostProcessPostParameters(request, post.AsUri());
+            byte[] content = null;
+
+            if (PostContent != null && PostContent.Length > 0)
+            {
+                content = PostContent;
+            }
+            else
+            {
+                content = PostProcessPostParameters(request, post.AsUri());
+            }
+            //var content = PostProcessPostParameters(request, post.AsUri());
 #if TRACE
             Trace.WriteLineIf(TraceEnabled, string.Concat("\r\n", content));            
 #endif
